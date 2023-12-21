@@ -40,25 +40,27 @@ def getSideEffects():
 
 
 def getReactions(drugName):
-    url = f'https://api.fda.gov/drug/event.json?search=patient.drug.medicinalproduct:"{drugName}"'
+    url = f'https://api.fda.gov/drug/event.json?search=patient.drug.medicinalproduct:{drugName}'
     results = requests.get(url).json()['results']
-
+    # print(results)
     substancename = set()
     for res in results:
-        for drug in res["patient"]["drug"]:
-            if drug.get("activesubstance"):
-                substancename.add(
-                    drug.get("activesubstance").get("activesubstancename"))
+        for drug in res["patient"]["reaction"]:
+            if drug.get("reactionmeddrapt"):
+                # print(drug.get("openfda").get("substance_name"), "check")
+                # for subs in drug.get("openfda").get("substance_name"):
+                substancename.add(drug.get("reactionmeddrapt"))
     substancename = list(substancename)
-    print(substancename)
-    x = tokenizer.texts_to_sequences([substancename])
-    x = tf.keras.preprocessing.sequence.pad_sequences(x, maxlen=64)
-    y = model.predict(x)
-    y = le.inverse_transform(y)
-    return y[0]
+    # print(substancename, "heelo")
+    # x = tokenizer.texts_to_sequences([substancename])
+    # x = tf.keras.preprocessing.sequence.pad_sequences(x, maxlen=64)
+    # y = model.predict(x)
+    # y = le.inverse_transform(y)
+    # print(y, "hell")
+    return substancename
 
 
-print(getReactions("humira"))
+# print(getReactions("humira"))
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(

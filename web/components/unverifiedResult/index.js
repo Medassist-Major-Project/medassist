@@ -175,8 +175,8 @@ const UnverifiedResult = () => {
             </div>
           </div>
           <div className={styles.prescription}>
-            {/* <img src={data.image} alt="Prescription" /> */}
-            <PDF data={data.image} />
+            <img src={data.image} alt="Prescription" />
+            {/* <PDF data={data.image} /> */}
             {/* <object data={data.image} width="400" height="300" /> */}
           </div>
           <div className={styles.table}>
